@@ -44,7 +44,7 @@ if (env('REDIS_SERVERS', false)) {
     $redisConfig = [
         'client' => 'predis',
         'default' => [
-            env('REDIS_SERVER', 'tcp://localhost:26379?timeout=0.100')
+            env('REDIS_SERVER', 'tcp://localhost:26379?timeout=0.100'),
             'options' => [
                 'replication' => 'sentinel',
                 'service' => 'mymaster',
