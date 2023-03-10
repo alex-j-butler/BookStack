@@ -11,6 +11,7 @@
 // REDIS
 // Split out configuration into an array
 if (env('REDIS_SERVERS', false)) {
+    /*
     $redisDefaults = ['host' => '127.0.0.1', 'port' => '6379', 'database' => '0', 'password' => null];
     $redisServers = explode(',', trim(env('REDIS_SERVERS', '127.0.0.1:6379:0'), ','));
     $redisConfig = ['client' => 'predis'];
@@ -36,6 +37,24 @@ if (env('REDIS_SERVERS', false)) {
             $redisConfig['default'] = $serverConfig;
         }
     }
+
+    */
+
+    // Statically configure the Redis config - this is for testing only, to be updated with appropriate code to read configuration for sentinel based Redis clusters.
+    $redisConfig = [
+        'client' => 'predis',
+        'default' => [
+            env('REDIS_SERVER', 'tcp://localhost:26379?timeout=0.100')
+            'options' => [
+                'replication' => 'sentinel',
+                'service' => 'mymaster',
+                'parameters' => [
+                    'password' => null,
+                    'database' => 0,
+                ],
+            ],
+        ],
+    ];
 }
 
 // MYSQL
